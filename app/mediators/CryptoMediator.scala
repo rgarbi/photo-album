@@ -2,6 +2,9 @@ package mediators
 
 import scala.util.Random
 import java.lang.Long
+import org.jasypt.util.password.ConfigurablePasswordEncryptor
+import org.jasypt.digest.config.SimpleDigesterConfig
+import org.jasypt.digest.StandardStringDigester
 
 /**
  * Created by rgarbi on 1/9/14.
@@ -9,15 +12,23 @@ import java.lang.Long
 class CryptoMediator {
 
 
-  def saltGenerator(): String = {
-    val length: Integer = 50
-    var salt: String = ""
+  def encryptPassword(plain_text_password: String): String = {
+    val passwordEncryptor: StandardStringDigester = buildDigest()
+    return passwordEncryptor.digest(plain_text_password)
+  }
 
-    while(salt.length < length){
-      salt += Long.toHexString(new Random(System.nanoTime()).nextLong())
-    }
+  def passwordMatches(plain_text_password: String, encrypted_password: String): Boolean = {
+    val passwordEncryptor: StandardStringDigester = buildDigest()
+    return passwordEncryptor.matches(plain_text_password, encrypted_password)
+  }
 
-    return salt.substring(0,length)
+  def buildDigest(): StandardStringDigester = {
+    val stringEncryptor: StandardStringDigester = new StandardStringDigester();
+    stringEncryptor.setAlgorithm("SHA-512")
+    stringEncryptor.setIterations(50000)
+    stringEncryptor.setSaltSizeBytes(100)
+    stringEncryptor.initialize()
+    return stringEncryptor
   }
 
 }
