@@ -26,11 +26,15 @@ object User {
 
   def getByUserName(user_name: String): User = DB.withConnection { implicit c =>
     SQL("select * from USERS where USER_NAME = {user_name}")
-      .on('user_name -> user_name).as(user.singleOpt).get
+      .on('user_name -> user_name).as(user.singleOpt).getOrElse(null)
   }
 
   def all(): List[User] = DB.withConnection { implicit c =>
     SQL("select * from USERS").as(user *)
+  }
+
+  def create(user: User){
+    create(user.uuid, user.user_name, user.hashed_password)
   }
 
   def create(uuid: String, user_name: String, hashed_password: String){
