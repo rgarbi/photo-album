@@ -25,6 +25,10 @@ class UserMediator {
     return user
   }
 
+  def removeUser(user_name: String){
+    User.delete(user_name)
+  }
+
 
 
 }
