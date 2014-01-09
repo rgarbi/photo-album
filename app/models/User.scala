@@ -25,9 +25,9 @@ object User {
     }
   }
 
-  def getAllByUserName(user_name: String): List[User] = DB.withConnection { implicit c =>
+  def getByUserName(user_name: String): User = DB.withConnection { implicit c =>
     SQL("select * from USERS where USER_NAME = {user_name}")
-      .on('user_name -> user_name).as(user *)
+      .on('user_name -> user_name).as(user.singleOpt).get
   }
 
   def all(): List[User] = DB.withConnection { implicit c =>

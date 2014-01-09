@@ -36,11 +36,26 @@ class UserTest extends FunSuite with BeforeAndAfter {
 
       val allUsers: List[User] = User.all()
       assert(allUsers.size === userCount)
-      
+
       allUsers.foreach{ user: User =>
         User.delete(user.user_name)
       }
 
+    }
+  }
+
+  test("I can get a user by user name."){
+    running(FakeApplication(additionalConfiguration = inMemoryDatabase("test"))) {
+      val aUser: User = createUser()
+      User.create(aUser.uuid, aUser.user_name, aUser.hashed_password, aUser.salt)
+
+      val savedUser: User = User.getByUserName(aUser.user_name)
+      assert(aUser.uuid === savedUser.uuid)
+      assert(aUser.user_name === savedUser.user_name)
+      assert(aUser.hashed_password === savedUser.hashed_password)
+      assert(aUser.salt === savedUser.salt)
+
+      User.delete(aUser.user_name)
     }
   }
 
