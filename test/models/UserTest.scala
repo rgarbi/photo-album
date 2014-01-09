@@ -14,15 +14,15 @@ class UserTest extends FunSuite with BeforeAndAfter {
 
   test("I can store a user."){
     running(FakeApplication(additionalConfiguration = inMemoryDatabase("test"))) {
-      val uuid = UUID.randomUUID().toString();
-      val username: String = "User" + UUID.randomUUID().toString();
-      val password: String = "Password" + UUID.randomUUID().toString();
-      val salt: String = "Salt" + UUID.randomUUID().toString();
+      val uuid = UUID.randomUUID().toString()
+      val username: String = "User" + UUID.randomUUID().toString()
+      val password: String = "Password" + UUID.randomUUID().toString()
+      val salt: String = "Salt" + UUID.randomUUID().toString()
       User.create(uuid, username, password, salt)
 
       var allUsers: List[User] = User.all()
       assert(allUsers.size === 1)
-      //TestProp.delete(uuid)
+      User.delete(username)
 
     }
   }

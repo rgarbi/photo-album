@@ -45,4 +45,12 @@ object User {
     }
   }
 
+  def delete(user_name: String) {
+    DB.withConnection { implicit c =>
+      SQL("delete from USERS where USER_NAME = {user_name}").on(
+        'user_name -> user_name
+      ).execute()
+    }
+  }
+
 }
