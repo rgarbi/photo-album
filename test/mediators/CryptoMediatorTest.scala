@@ -8,6 +8,7 @@ import org.scalatest.FunSuite
 import scala.collection.mutable.HashMap
 import java.lang.Long
 import scala.util.Random
+import org.jasypt.digest.StandardStringDigester
 
 /**
  * Created by rgarbi on 1/8/14.
@@ -64,7 +65,9 @@ class CryptoMediatorTest extends FunSuite with BeforeAndAfter {
     assert(true === matches)
   }
 
-
+  test("The encyptor is initialized"){
+    assert(true === new CryptoMediator().buildDigest().isInitialized)
+  }
 
   def stringGenerator(): String = {
 
