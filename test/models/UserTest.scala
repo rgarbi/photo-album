@@ -14,17 +14,46 @@ class UserTest extends FunSuite with BeforeAndAfter {
 
   test("I can store a user."){
     running(FakeApplication(additionalConfiguration = inMemoryDatabase("test"))) {
-      val uuid = UUID.randomUUID().toString()
-      val username: String = "User" + UUID.randomUUID().toString()
-      val password: String = "Password" + UUID.randomUUID().toString()
-      val salt: String = "Salt" + UUID.randomUUID().toString()
-      User.create(uuid, username, password, salt)
+      val aUser: User = createUser()
+      User.create(aUser.uuid, aUser.user_name, aUser.hashed_password, aUser.salt)
 
-      var allUsers: List[User] = User.all()
+      val allUsers: List[User] = User.all()
       assert(allUsers.size === 1)
-      User.delete(username)
+      User.delete(aUser.user_name)
 
     }
+  }
+
+  test("I can get a list of users"){
+    running(FakeApplication(additionalConfiguration = inMemoryDatabase("test"))) {
+
+      val userCount: Integer = 100;
+
+      for(i <- 1 to userCount){
+        val aUser: User = createUser()
+        User.create(aUser.uuid, aUser.user_name, aUser.hashed_password, aUser.salt)
+      }
+
+      val allUsers: List[User] = User.all()
+      assert(allUsers.size === userCount)
+      
+      allUsers.foreach{ user: User =>
+        User.delete(user.user_name)
+      }
+
+    }
+  }
+
+
+  def createUser(): User = {
+
+    val uuid = UUID.randomUUID().toString()
+    val username: String = "User" + UUID.randomUUID().toString()
+    val password: String = "Password" + UUID.randomUUID().toString()
+    val salt: String = "Salt" + UUID.randomUUID().toString()
+
+    return User(uuid, username, password, salt);
+
   }
 
 
