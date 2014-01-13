@@ -15,7 +15,7 @@ class AlbumTest extends FunSuite with BeforeAndAfter {
   test("I can store an album."){
     running(FakeApplication(additionalConfiguration = inMemoryDatabase("test"))) {
       val album: Album = createAlbum()
-      User.create(album.uuid, album.name, album.description)
+      Album.create(album.uuid, album.name, album.description)
 
       val allAlbums: List[Album] = Album.all()
       assert(allAlbums.size === 1)
