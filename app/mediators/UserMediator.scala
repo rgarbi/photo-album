@@ -1,6 +1,7 @@
 package mediators
 
 import models.User
+import play.libs.Json
 
 /**
  * Created by rgarbi on 1/9/14.
@@ -28,6 +29,12 @@ class UserMediator {
   def removeUser(user_name: String){
     User.delete(user_name)
   }
+
+  def getAllUsersAsJson(): String = {
+    return Json.toJson(User.all()).asText();
+  }
+
+
 
 
 

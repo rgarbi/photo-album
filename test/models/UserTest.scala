@@ -98,7 +98,7 @@ class UserTest extends FunSuite with BeforeAndAfter {
   def createUser(): User = {
 
     val uuid = new StringUtil().uuidGenerator()
-    val username: String = "User" + new StringUtil().uuidGenerator()
+    val username: String = "User.scala" + new StringUtil().uuidGenerator()
     val password: String = "Password" + new StringUtil().uuidGenerator()
 
     return User(uuid, username, password);

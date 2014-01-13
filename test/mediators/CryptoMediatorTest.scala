@@ -6,7 +6,7 @@ import play.api.test.Helpers._
 import org.scalatest.BeforeAndAfter
 import org.scalatest.FunSuite
 import scala.collection.mutable.HashMap
-import java.lang.Long
+import java.lang.{IllegalArgumentException, Long}
 import scala.util.Random
 import org.jasypt.digest.StandardStringDigester
 
@@ -55,14 +55,16 @@ class CryptoMediatorTest extends FunSuite with BeforeAndAfter {
     assert(true === matches)
   }
 
-  test("I can hash an empty string"){
+  test("I cannot hash an empty string"){
     val password: String = ""
-    val hashed_password = new CryptoMediator().encryptPassword(password)
-    assert(password.equals(hashed_password) === false)
-
-    val matches: Boolean = new CryptoMediator().passwordMatches(password, hashed_password)
-
-    assert(true === matches)
+    try{
+      new CryptoMediator().encryptPassword(password)
+    }
+    catch{
+      case iae: IllegalArgumentException => {
+        println("Exception!")
+      }
+    }
   }
 
   test("The encyptor is initialized"){
