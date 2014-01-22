@@ -21,6 +21,14 @@ class StringUtilTest extends FunSuite with BeforeAndAfter {
     assert(uuids.size === 1000)
   }
 
+  test("Hello World"){
+
+    for(i <- 1 to 1000){
+      System.out.println( "Hello World")
+    }
+
+  }
+
 
   def stringGenerator(): String = {
 
