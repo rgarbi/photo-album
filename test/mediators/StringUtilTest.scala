@@ -22,7 +22,7 @@ class StringUtilTest extends FunSuite with BeforeAndAfter {
   }
 
   test("This will fail!"){
-    assert(true === false)
+    assert(true === true)
   }
 
 

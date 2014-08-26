@@ -57,17 +57,23 @@ class CryptoMediatorTest extends FunSuite with BeforeAndAfter {
 
   test("I cannot hash an empty string"){
     val password: String = ""
+    var threwException: Boolean  = false
+
     try{
       new CryptoMediator().encryptPassword(password)
     }
     catch{
       case iae: IllegalArgumentException => {
         println("Exception!")
+        threwException = true
       }
     }
+
+    assert(threwException === false)
+
   }
 
-  test("The encyptor is initialized"){
+  test("The encryptor is initialized"){
     assert(true === new CryptoMediator().buildDigest().isInitialized)
   }
 
